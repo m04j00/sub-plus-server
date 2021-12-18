@@ -121,7 +121,24 @@ router.post('/add-info', function (req, res) {
         });
     })
 });
+// 추가 정보
+router.post('/ahkjoin', function (req, res) {
+    let qb = req.body;
+    let email = req.body.email;
+    const salt = 10;
+    const password = bcrypt.hashSync(req.body.password, salt); // 비밀번호 암호화
 
+    let sql = `INSERT INTO user  VALUES(1, ?, ?, ?, ?, ?)`;
+    let params = [email, password, qb.name, qb.tel, qb.account, qb.img];
+    connection.query(sql, params, function (err, result) {
+        resultCode = 200;
+        message = '회원가입 되었습니다.';
+        res.json({
+            'code': resultCode,
+            'message': message
+        });
+    })
+});
 router.post('/login', function (req, res) {
     const email = req.body.email;
     const pw = req.body.password;
