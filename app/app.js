@@ -7,6 +7,8 @@ const listRouter = require('./router/list');
 app.use('/list', listRouter);
 const userRouter = require('./router/user');
 app.use('/user', userRouter);
+const partyRouter = require('./router/party-user');
+app.use('/party-user', partyRouter);
 
 app.get('/', function(req, res){
   res.send('앱잼 20회 서버');
