@@ -49,7 +49,7 @@ router.get('/accept', function (req, res) {
 
     let deleteSql = `DELETE FROM applicant where room = ? AND member_id = ?`;
     let insertSql = `INSERT INTO party_member(room, member_id) VALUES(?, ?)`;
-    let updateSql = `UPDATE list SET current_member = ? WHERE id = ? `;
+    let updateSql = `UPDATE list SET current_num = ? WHERE id = ? `;
     let params = [qq.room, qq.member_id];
     let updateParam = [qq.current_member, qq.room];
     connection.query(insertSql, params, function (err, result) {
