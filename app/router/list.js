@@ -33,7 +33,7 @@ router.post('/posting', function (req, res) {
     let params = [id, list.title, list.category, list.matching_num, list.price, list.organizer, list.content];
     let sql = `INSERT INTO list(id, title, category, matching_num, price, organizer, content, current_num)  VALUES(?, ?, ?, ?, ?, ?, ?, 1)`;
     let memberSql = `INSERT INTO party_member(room, member_id) VALUES(?, ?)`;
-    let memberParam = [id, list.id];
+    let memberParam = [id, list.o_id];
     connection.query(sql, params, function (err, result) {
         let resultCode = 404;
         let message = '등록 실패. 다시 시도해주세요!';
