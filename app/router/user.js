@@ -207,7 +207,7 @@ router.get('/info', function (req, res) {
         param = [room];
     }
     else {
-        sql = `SELECT l.title, l.current_num, l.matching_num, l.id FROM list AS l JOIN party_member AS m ON m.room = l.id WHERE m.member_id = ? AND m.room != ?`;
+        sql = `SELECT l.title, l.current_num, l.matching_num, l.id FROM list AS l JOIN party_member AS m ON m.room = l.id WHERE m.member_id = ? LIKE m.room != ?`;
         param = [id, room];
     }
     console.log(room)
