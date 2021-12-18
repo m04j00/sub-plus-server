@@ -42,6 +42,7 @@ router.post('/posting', function (req, res) {
 
         else {
             connection.query(memberSql, memberParam, function (err, result) {
+                if(err) console.log(err);
             })
             resultCode = 200;
             message = '등록 되었습니다.';
