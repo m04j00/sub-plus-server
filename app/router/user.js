@@ -210,7 +210,7 @@ router.get('/info', function (req, res) {
         sql = `SELECT l.title FROM list AS l JOIN party_member AS m ON m.room = l.id WHERE m.member_id = ? AND m.room != ?`;
         param = [id, room];
     }
-
+    console.log(room);
     connection.query(sql, id, function (err, result) {
         if (err) {
             console.log(err);
