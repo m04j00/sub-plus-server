@@ -14,14 +14,16 @@ router.use(express.urlencoded({
 router.use(express.json());
 
 var form = "<!DOCTYPE HTML><html><body>" +
-"<form method='post' action='/user/upload' enctype='multipart/form-data'>" +
-"<input type='file' name='upload'/>" +
-"<input type='submit' /></form>" +
-"</body></html>";
+    "<form method='post' action='/user/upload' enctype='multipart/form-data'>" +
+    "<input type='file' name='upload'/>" +
+    "<input type='submit' /></form>" +
+    "</body></html>";
 
-router.get('/', function (req, res){
-  res.writeHead(200, {'Content-Type': 'text/html' });
-  res.end(form);
+router.get('/', function (req, res) {
+    res.writeHead(200, {
+        'Content-Type': 'text/html'
+    });
+    res.end(form);
 
 });
 
@@ -46,10 +48,18 @@ router.post("/upload", multer({
         console.log(req.body);
         res.redirect("/user/uploads/" + req.file.filename);
         console.log(req.file.filename);
+
+        let sql = `UPDATE user SET img = ? WHERE email = ?`;
+        let params = [req.file.filename, req.body.email];
+        connection.query(sql, params, function (err, result) {
+            if (err)
+                console.log(err);
+        })
+
         return res.status(200).end();
     });
 
-    router.get('/uploads/:upload', function (req, res) {
+router.get('/uploads/:upload', function (req, res) {
     file = req.params.upload;
     console.log(req.params.upload);
     var img = fs.readFileSync("./app/uploads/" + file);
@@ -78,7 +88,7 @@ router.post('/join', function (req, res) {
         else if (result.length === 0) {
             connection.query(sql, params, function (err, result) {
                 resultCode = 200;
-                message = '';
+                message = '회원가입 되었습니다.';
             })
         } else {
             resultCode = 204;
