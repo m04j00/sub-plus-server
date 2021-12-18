@@ -58,7 +58,7 @@ router.get('/party', function (req, res) {
     let sql = `SELECT * FROM list WHERE id = '${id}`;
 
     connection.query(sql, function (err, result) {
-        if (err) return res.sendStatus(400);
+        if (err) res.sendStatus(400);
         console.log("result : " + JSON.stringify(result));
         res.json(result);
        
