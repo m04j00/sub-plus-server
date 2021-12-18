@@ -193,10 +193,23 @@ router.get('/info/:make', function (req, res) {
     })
 })
 // info
-router.get('/info/:join', function (req, res) {
+router.get('/info', function (req, res) {
     let id = req.query.id;
+    let name = req.query.name;
+    let tab = req.query.tab;
     // 유저 정보는 안드에 저장되어 있는 정보로 띄우고 가입한 파티 목록만 띄우기
-    let sql = `SELECT l.title FROM list AS l JOIN party_member AS m ON m.room = l.id WHERE m.member_id = ?`;
+    let sql;
+    let param = [];
+    let room = name + '%';
+    if(tab == 0){
+        sql = `SELECT l.title FROM list AS l JOIN party_member AS m ON m.room = l.id LIKE m.room = ?`;
+        
+        param = [room];
+    }
+    else {
+        sql = `SELECT l.title FROM list AS l JOIN party_member AS m ON m.room = l.id WHERE m.member_id = ? AND m.room != ?`;
+        param = [id, room];
+    }
 
     connection.query(sql, id, function (err, result) {
         if (err) {
