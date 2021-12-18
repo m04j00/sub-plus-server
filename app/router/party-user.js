@@ -119,10 +119,10 @@ router.get('/member_list', function (req, res) {
 
 // 희망자 목록
 router.get('/applicant', function (req, res) {
-    let qb = req.body;
+    let room = req.query.room;
     let sql = `select * from applicant where room = ?`;
 
-    connection.query(sql, qb.room, function (err, result) {
+    connection.query(sql, room, function (err, result) {
         if (err) {
             console.log(err);
             res.json({
