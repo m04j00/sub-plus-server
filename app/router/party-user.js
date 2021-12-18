@@ -44,13 +44,14 @@ router.post('/applicant', function (req, res) {
 });
 
 //파티 수락
-router.post('/accept', function (req, res) {
-    let qb = req.body;
+router.get('/accept', function (req, res) {
+    let qq = req.query;
+
     let deleteSql = `DELETE FROM applicant where room = ? AND member_id = ?`;
     let insertSql = `INSERT INTO party_member(room, member_id) VALUES(?, ?)`;
     let updateSql = `UPDATE list SET current_member = ? WHERE id = ? `;
-    let params = [qb.room, qb.member_id];
-    let updateParam = [qb.current_member, qb.room];
+    let params = [qq.room, qq.member_id];
+    let updateParam = [qq.current_member, qq.room];
     connection.query(insertSql, params, function (err, result) {
         if (err) {
             console.log(err);
@@ -78,7 +79,7 @@ router.post('/accept', function (req, res) {
     })
 });
 //거절
-router.post('/refusal', function (req, res) {
+router.get('/refusal', function (req, res) {
     let qb = req.body;
     let deleteSql = `DELETE FROM applicant where room = ? AND member_id = ?`;
     let params = [qb.room, qb.member_id];
