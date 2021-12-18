@@ -59,9 +59,9 @@ router.get('/party', function (req, res) {
 
     connection.query(sql, function (err, result) {
         if (err) return res.sendStatus(400);
-
-        res.json(result);
         console.log("result : " + JSON.stringify(result));
+        res.json(result);
+       
     });
 });
 module.exports = router;
