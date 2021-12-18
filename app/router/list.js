@@ -55,7 +55,7 @@ router.post('/posting', function (req, res) {
 })
 router.get('/party', function (req, res) {
     let id = req.query.id;
-    let sql = `SELECT * FROM list WHERE id = '${id}`;
+    let sql = `SELECT * FROM list WHERE id = '${id}'`;
 
     connection.query(sql, function (err, result) {
         if (err) res.sendStatus(400);
