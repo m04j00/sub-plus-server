@@ -2,13 +2,17 @@ const express = require('express');
 const router = express();
 const connection = require('../mysql');
 
+router.use(express.urlencoded({
+    extended: false
+  })); //application/x-www-form-urlencoded
+  router.use(express.json());
+  
 // 파티 가입
 router.post('/applicant', function (req, res) {
     let qb = req.body;
-    let updateSql = `UPDATE user SET name = ? , tel = ? WHERE id = ?`;
+    console.log(qb.room);
     let insertSql = `INSERT INTO applicant(room, member_id) VALUES(?, ?)`;
     let checkSQL = `select * from applicant where room = ? AND member_id = ?`;
-    let updateParam = [qb.name, qb.tel, qb.member_id];
     let insertParam = [qb.room, qb.member_id];
 
     connection.query(checkSQL, insertParam, function (err, result) {
@@ -20,16 +24,6 @@ router.post('/applicant', function (req, res) {
                 'message': '이미 가입된 파티이거나 가입 요청 중인 파티입니다.'
             });
         } else {
-            connection.query(updateSql, updateParam, function (err, result) {
-                if (err) {
-                    console.log(err);
-                    res.json({
-                        'code': 404,
-                        'message': '오류 발생. 다시 한 번 시도해주세요!'
-                    })
-                }
-
-            });
             connection.query(insertSql, insertParam, function (err, result) {
                 if (err) {
                     console.log(err);
