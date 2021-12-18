@@ -11,7 +11,7 @@ router.get('/', function (req, res) {
     res.send('list');
 });
 
-router.get('/:category', function (req, res) {
+router.get('/category/:category', function (req, res) {
     let category = req.params.category;
     let sql = 'SELECT * FROM list WHERE category = ?';
 
