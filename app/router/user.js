@@ -2,14 +2,63 @@ const express = require('express');
 const router = express();
 const bcrypt = require("bcryptjs");
 const connection = require('../mysql');
+var multer, storage, path, crypto;
+multer = require('multer')
+path = require('path');
+crypto = require('crypto');
+const fs = require('fs');
 
 router.use(express.urlencoded({
     extended: false
 })); //application/x-www-form-urlencoded
 router.use(express.json());
 
-router.get('/', function (req, res) {
-    res.send('user');
+var form = "<!DOCTYPE HTML><html><body>" +
+"<form method='post' action='/user/upload' enctype='multipart/form-data'>" +
+"<input type='file' name='upload'/>" +
+"<input type='submit' /></form>" +
+"</body></html>";
+
+router.get('/', function (req, res){
+  res.writeHead(200, {'Content-Type': 'text/html' });
+  res.end(form);
+
+});
+
+storage = multer.diskStorage({
+    destination: './app/uploads/',
+    filename: function (req, file, cb) {
+        return crypto.pseudoRandomBytes(16, function (err, raw) {
+            if (err) {
+                return cb(err);
+            }
+            return cb(null, "" + (raw.toString('hex')) + (path.extname(file.originalname)));
+        });
+    }
+});
+
+// Post files
+router.post("/upload", multer({
+        storage: storage
+    }).single('upload'),
+    function (req, res) {
+        console.log(req.file);
+        console.log(req.body);
+        res.redirect("/user/uploads/" + req.file.filename);
+        console.log(req.file.filename);
+        return res.status(200).end();
+    });
+
+    router.get('/uploads/:upload', function (req, res) {
+    file = req.params.upload;
+    console.log(req.params.upload);
+    var img = fs.readFileSync("./app/uploads/" + file);
+    console.log("img", img);
+    res.writeHead(200, {
+        'Content-Type': 'image/png'
+    });
+    res.end(img, 'binary');
+
 });
 
 router.post('/join', function (req, res) {
@@ -92,7 +141,7 @@ router.post('/login', function (req, res) {
     })
 });
 // info
-router.get('/info/:make', function(req, res){
+router.get('/info/:make', function (req, res) {
     let name = req.query.name;
     // 유저 정보는 안드에 저장되어 있는 정보로 띄우고 가입한 파티 목록만 띄우기
     let sql = `select * from list where organizer = ?`;
@@ -109,7 +158,7 @@ router.get('/info/:make', function(req, res){
     })
 })
 // info
-router.get('/info/:join', function(req, res){
+router.get('/info/:join', function (req, res) {
     let id = req.query.id;
     // 유저 정보는 안드에 저장되어 있는 정보로 띄우고 가입한 파티 목록만 띄우기
     let sql = `SELECT l.title FROM list AS l JOIN party_member AS m ON m.room = l.id WHERE m.member_id = ?`;
