@@ -21,11 +21,14 @@ router.get('/:category', function (req, res) {
         res.json(result);
         console.log("result : " + JSON.stringify(result));
     });
-})
+});
 router.post('/posting', function (req, res) {
     let list = req.body;
-    let sql = `INSERT INTO list(title, category, matching_num, price, organizer)  VALUES( '${list.title}', ${list.category}, ${list.matching_num}, ${list.price}, '${list.organizer}')`;
-    connection.query(sql, function (err, result) {
+    let id = list.organizer + list.category;
+    console.log(id);
+    let params = [id, list.title, list.category, list.matching_num, list.price, list.organizer];
+    let sql = `INSERT INTO list(id, title, category, matching_num, price, organizer)  VALUES(?, ?, ?, ?, ?, ?)`;
+    connection.query(sql, params, function (err, result) {
         let resultCode = 404;
         let message = '등록 실패. 다시 시도해주세요!';
         if (err)

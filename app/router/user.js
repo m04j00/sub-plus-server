@@ -90,6 +90,39 @@ router.post('/login', function (req, res) {
             'message': message
         });
     })
-
 });
+// info
+router.get('/info/:make', function(req, res){
+    let name = req.query.name;
+    // 유저 정보는 안드에 저장되어 있는 정보로 띄우고 가입한 파티 목록만 띄우기
+    let sql = `select * from list where organizer = ?`;
+
+    connection.query(sql, name, function (err, result) {
+        if (err) {
+            console.log(err);
+            res.json({
+                'code': 404,
+                'message': '오류 발생. 다시 한 번 시도해주세요!'
+            })
+        }
+        res.json(result);
+    })
+})
+// info
+router.get('/info/:join', function(req, res){
+    let id = req.query.id;
+    // 유저 정보는 안드에 저장되어 있는 정보로 띄우고 가입한 파티 목록만 띄우기
+    let sql = `SELECT l.title FROM list AS l JOIN party_member AS m ON m.room = l.id WHERE m.member_id = ?`;
+
+    connection.query(sql, id, function (err, result) {
+        if (err) {
+            console.log(err);
+            res.json({
+                'code': 404,
+                'message': '오류 발생. 다시 한 번 시도해주세요!'
+            })
+        }
+        res.json(result);
+    })
+})
 module.exports = router;

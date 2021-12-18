@@ -7,7 +7,6 @@ CREATE TABLE list(
     category INT NOT NULL,
     matching_num INT NOT NULL,
     price INT NOT NULL,
-    term INT NOT NULL,
     organizer VARCHAR(50) NOT NULL
 );
 
