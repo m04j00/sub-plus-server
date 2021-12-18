@@ -4,6 +4,7 @@ use appjam_db;
 CREATE TABLE list(
     id VARCHAR(50) PRIMARY KEY, -- 주최자+카테고리 (joohoney0)
     title VARCHAR(50) NOT NULL, 
+    content TEXT NOT NULL,
     category INT NOT NULL,
     matching_num INT NOT NULL,
     price INT NOT NULL,
