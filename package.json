@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/m04j00/matching#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "express": "^4.17.2",
     "mysql": "^2.18.1"
   }
