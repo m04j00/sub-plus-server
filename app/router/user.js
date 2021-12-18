@@ -168,7 +168,9 @@ router.post('/login', function (req, res) {
         }
         res.json({
             'code': resultCode,
-            'message': message
+            'message': message,
+            'id' : result[0].id,
+            'name' : result[0].name
         });
     })
 });
