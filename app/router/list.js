@@ -2,11 +2,16 @@ const express = require('express');
 const router = express();
 const connection = require('../mysql');
 
+router.use(express.urlencoded({
+    extended: false
+  })); //application/x-www-form-urlencoded
+  router.use(express.json());
+
 router.get('/', function (req, res) {
     res.send('list');
 });
 
-router.get('/category/:category', function (req, res) {
+router.get('/:category', function (req, res) {
     let category = req.params.category;
     let sql = 'SELECT * FROM list WHERE category = ?';
 
@@ -17,10 +22,9 @@ router.get('/category/:category', function (req, res) {
         console.log("result : " + JSON.stringify(result));
     });
 })
-
 router.post('/posting', function (req, res) {
     let list = req.body;
-    let sql = `INSERT INTO(title, content, category, matching_num, price, organizer) list VALUES( '${list.title}', '${list.content}', ${list.category}, ${list.num}, ${list.price}, '${list.oraniser}'`;
+    let sql = `INSERT INTO list(title, category, matching_num, price, organizer)  VALUES( '${list.title}', ${list.category}, ${list.matching_num}, ${list.price}, '${list.organizer}')`;
     connection.query(sql, function (err, result) {
         let resultCode = 404;
         let message = '등록 실패. 다시 시도해주세요!';
@@ -37,3 +41,5 @@ router.post('/posting', function (req, res) {
         });
     })
 })
+
+module.exports = router;
