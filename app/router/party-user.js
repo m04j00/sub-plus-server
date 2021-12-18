@@ -120,7 +120,7 @@ router.get('/member_list', function (req, res) {
 // 희망자 목록
 router.get('/applicant', function (req, res) {
     let room = req.query.room;
-    let sql = `select * from applicant where room = ?`;
+    let sql = `SELECT u.img, u.name FROM user AS u JOIN applicant AS m ON m.member_id = u.id WHERE m.room = ?`;
 
     connection.query(sql, room, function (err, result) {
         if (err) {
