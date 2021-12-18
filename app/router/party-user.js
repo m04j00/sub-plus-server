@@ -6,7 +6,7 @@ router.use(express.urlencoded({
     extended: false
   })); //application/x-www-form-urlencoded
   router.use(express.json());
-  
+
 // 파티 가입
 router.post('/applicant', function (req, res) {
     let qb = req.body;
@@ -48,8 +48,9 @@ router.post('/accept', function (req, res) {
     let qb = req.body;
     let deleteSql = `DELETE FROM applicant where room = ? AND member_id = ?`;
     let insertSql = `INSERT INTO party_member(room, member_id) VALUES(?, ?)`;
+    let updateSql = `UPDATE list SET current_member = ? WHERE id = ? `;
     let params = [qb.room, qb.member_id];
-
+    let updateParam = [qb.current_member, qb.room];
     connection.query(insertSql, params, function (err, result) {
         if (err) {
             console.log(err);
@@ -67,9 +68,11 @@ router.post('/accept', function (req, res) {
                 'message': '오류 발생. 다시 한 번 시도해주세요!'
             })
         } else {
-            res.json({
-                'code': 200,
-                'message': `파티에 구성원이 추가되었습니다.`
+            connection.query(updateSql, updateParam, function (err, result) {
+                res.json({
+                    'code': 200,
+                    'message': `파티에 구성원이 추가되었습니다.`
+                })
             })
         }
     })
@@ -98,10 +101,10 @@ router.post('/refusal', function (req, res) {
 
 // 구성원 목록
 router.get('/member_list', function (req, res) {
-    let qb = req.body;
+    let room = req.query.room;
     let sql = `select * from party_member where room = ?`;
 
-    connection.query(sql, qb.room, function (err, result) {
+    connection.query(sql, room, function (err, result) {
         if (err) {
             console.log(err);
             res.json({

@@ -6,6 +6,7 @@ CREATE TABLE list(
     title VARCHAR(50) NOT NULL, 
     content TEXT NOT NULL,
     category INT NOT NULL,
+    current_num INT NOT NULL,
     matching_num INT NOT NULL,
     price INT NOT NULL,
     organizer VARCHAR(50) NOT NULL
