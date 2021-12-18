@@ -17,7 +17,7 @@ router.get('/category/:category', function (req, res) {
     if(category == -1){
         sql = 'SELECT * FROM list';
     }
-    sql = `SELECT * FROM list WHERE category = ${category}`;
+    else sql = `SELECT * FROM list WHERE category = ${category}`;
 
     connection.query(sql, function (err, result) {
         if (err) return res.sendStatus(400);
