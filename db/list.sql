@@ -26,7 +26,9 @@ CREATE TABLE applicant(
 CREATE TABLE user(
     id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(50) UNIQUE,
+    password VARCHAR(255) NOT NULL,
     name VARCHAR(50), -- 파티 지원할 때 정보 채우기
     tel VARCHAR(50), 
+    account VARCHAR(50),
     img VARCHAR(50)
 );
