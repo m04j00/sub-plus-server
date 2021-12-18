@@ -170,7 +170,8 @@ router.post('/login', function (req, res) {
             'code': resultCode,
             'message': message,
             'id' : result[0].id,
-            'name' : result[0].name
+            'name' : result[0].name,
+            'img' : result[0].img
         });
     })
 });
