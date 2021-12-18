@@ -18,7 +18,7 @@ router.post('/applicant', function (req, res) {
     connection.query(checkSQL, insertParam, function (err, result) {
         if (err) {
             console.log(err);
-        } else if (result.length !== 0) {
+        } else if (result.length != 0) {
             res.json({
                 'code': 204,
                 'message': '이미 가입된 파티이거나 가입 요청 중인 파티입니다.'
