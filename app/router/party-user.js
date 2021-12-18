@@ -102,7 +102,7 @@ router.post('/refusal', function (req, res) {
 // 구성원 목록
 router.get('/member_list', function (req, res) {
     let room = req.query.room;
-    let sql = `select * from party_member where room = ?`;
+    let sql = `SELECT u.img, u.name FROM user AS u JOIN party_member AS m ON m.id = u.id WHERE m.room = ?`;
 
     connection.query(sql, room, function (err, result) {
         if (err) {
@@ -112,6 +112,7 @@ router.get('/member_list', function (req, res) {
                 'message': '오류 발생. 다시 한 번 시도해주세요!'
             })
         }
+        console.log(result);
         res.json(result);
     })
 });
