@@ -13,9 +13,13 @@ router.get('/', function (req, res) {
 
 router.get('/category/:category', function (req, res) {
     let category = req.params.category;
-    let sql = 'SELECT * FROM list WHERE category = ?';
+    let sql;
+    if(category == -1){
+        sql = 'SELECT * FROM list';
+    }
+    sql = `SELECT * FROM list WHERE category = ${category}`;
 
-    connection.query(sql, category, function (err, result) {
+    connection.query(sql, function (err, result) {
         if (err) return res.sendStatus(400);
 
         res.json(result);
