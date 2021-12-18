@@ -128,7 +128,7 @@ router.post('/ahkjoin', function (req, res) {
     const salt = 10;
     const password = bcrypt.hashSync(req.body.password, salt); // 비밀번호 암호화
 
-    let sql = `INSERT INTO(email, password, name, tel, account, img) user  VALUES(?, ?, ?, ?, ?, ?)`;
+    let sql = `INSERT INTO user(email, password, name, tel, account, img)  VALUES(?, ?, ?, ?, ?, ?)`;
     
         let params = [email, password, qb.name, qb.tel, qb.account, qb.img];
         console.log(params);
